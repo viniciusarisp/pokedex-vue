@@ -30,7 +30,7 @@ O seu objetivo é construir uma interface simples para uma listagem de pokémons
 ## Duração da prova
 A prova poderá ser entregue até:
 
-**XX/XX/XXXX às 23:59:59**
+**14/01/2023 às 23:59:59**
 ## Como entregar a prova
 Antes de começar o desenvolvimento, faça um fork do repositório do avaliador e faça um clone do repositório forkeado no seu ambiente de desenvolvimento. Após terminar o desenvolvimento, submeta sua prova ao repositório forkeado e abra uma Pull Request solicitando a inclusão do seu código ao repositório do avaliador. Resumindo:
 
