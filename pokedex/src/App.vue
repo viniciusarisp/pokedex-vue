@@ -1,17 +1,40 @@
 <script>
 import { pokeapi } from "@/api/pokeapi";
 
+var poke_data = {};
+
 export default {
   name: "App",
 
   data() {
     return {
+      poke_pagina: {}, //define a listagem de cada página
+      poke_card_data: {}, //Dados completos do poke
       pokemonDados: {},
       pokemon_ID: "",
     };
   },
 
   methods: {
+    async busca_pagina(
+      param = "https://pokeapi.co/api/v2/pokemon/?offset=0&limit=20"
+    ) {
+      var pag = {};
+      try {
+        const pagina_buscada = await fetch(param);
+        const pagina = await pagina_buscada.json();
+        pag = pagina.results;
+      } catch (error) {
+        console.log("Página não encontrada");
+      }
+      pag.forEach(async (element) => {
+        const cada_poke = await fetch(`${element.url}`);
+        const poke = await cada_poke.json();
+        poke_data += poke;
+        console.log(poke);
+      });
+      // console.log(poke_data);
+    },
     async busca_pokemon() {
       try {
         const pokemon_buscado = await fetch(`${pokeapi}/${this.pokemon_ID}`);
@@ -19,14 +42,14 @@ export default {
         this.pokemonDados = pokemon;
 
         console.log(pokemon);
-
-        return pokemon;
       } catch (error) {
         alert("Pokemon não encontrado!");
       }
     },
   },
-  beforeMount() {},
+  beforeMount() {
+    this.busca_pagina();
+  },
 };
 </script>
 
@@ -70,10 +93,9 @@ export default {
   </main>
   <ul>
     <h2>Lista de pokemons</h2>
-    <li>
+    <li v-for="(poke, index) in poke_card_data" :key="index">
       <div>
-        <img src="" alt="foto-poke" />
-        <span>nome</span>
+        <span>{{ poke.name }}</span>
       </div>
     </li>
   </ul>
