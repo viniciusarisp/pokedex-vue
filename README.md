@@ -10,10 +10,10 @@ O seu objetivo é construir uma interface simples para uma listagem de pokémons
     - Busca por **Tipo**
     - (outro(s) item(s) à sua escolha)
 - Exibição dos dados do Pokémon (ao clicar sobre o pokémon na listagem)
-  - Foto
-  - Nome
-  - Tipo
-  - Habilidades
+  - Foto /ok
+  - Nome /ok 
+  - Tipo /ok
+  - Habilidades 
   - Tamanho e peso
 ## Itens que podem ser implementados e acrescentam pontos:
 - Paginação da listagem
