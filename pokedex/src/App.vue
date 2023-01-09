@@ -58,12 +58,13 @@ export default {
   computed: {
     // Quando a busca muda, recalcula-se o filtro e retorna pokesfiltrados()
     pokesFiltrados() {
-      const search = this.busca.toLowerCase();
-      return this.pokemons.filter((item) => {
-        const name = item.name.toLowerCase();
-        return name.includes(search);
-      }) 
-    }
+    const search = this.busca.toLowerCase();
+    return this.pokemons.filter((item) => {
+      const name = item.name.toLowerCase();
+      const type = item.types.map((t) => t.toLowerCase());
+      return name.includes(search) || type.includes(search);
+    });
+  },
   }
 }
 </script>
@@ -75,24 +76,24 @@ export default {
       <v-container>
         <v-card>
           <v-text-field
-          v-model="busca"
-          label="Buscar Pokemon"
-          placeholder="pikachu"
-          solo
-          >
-          </v-text-field>
+            v-model="busca"
+            label="Buscar Pokemon"
+            placeholder="pikachu"
+            solo
+          ></v-text-field>
           <v-row>
-            <v-col cols="3" v-for="pokemon in pokesFiltrados" :key="pokemon.name">
-              <v-card :value="pokemon.name" v-on:click="show_pokemon(pokemon)">
+            <v-col cols="3" v-for="pokemon in pokesFiltrados" :key="pokemon.name" class="">
+              <v-card class="pokemon-card ma-2" :value="pokemon.name" v-on:click="show_pokemon(pokemon)">
                 <v-container>
                   <v-row class="mx-2 d-flex justify-center">
-                    <img 
-                      :src="pokemon.sprite" 
+                    <img
+                      :src="pokemon.sprite"
                       :alt="pokemon.name"
                       max-width="100%"
                     />
                     <h2 class="text-center text-capitalize"> {{ pokemon.name }}</h2>
                   </v-row>
+                  <p class="text-center type-text">{{ pokemon.types.join(', ') }}</p>
                 </v-container>
               </v-card>
             </v-col>
@@ -100,50 +101,57 @@ export default {
         </v-card>
       </v-container>
     </v-main>
-    <v-dialog
-      v-model="showCard"
-      width="500"
-    >
-          <v-row>
-            <v-col cols="12">
-              <v-card class="pokemon-card">
-                <img :src="selectedPokemon.sprite" :alt="selectedPokemon.name"/>
-                <h2 class="text-center text-capitalize"> {{ selectedPokemon.name }}</h2>
-                <p class="text-center">Tipos: {{ selectedPokemon.types.join(', ') }}</p>
-                <p class="text-center">Habilidades: {{ selectedPokemon.abilities.join(', ') }}</p>
-                <p class="text-center">Peso: {{ selectedPokemon.weight }}</p>
-                <p class="text-center">Altura: {{ selectedPokemon.height }}</p>
-              </v-card>
-            </v-col>
-          </v-row>
+    <v-dialog v-model="showCard" width="300">
+      <v-card class="pokedex-card text-center">
+        <img :src="selectedPokemon.sprite" :alt="selectedPokemon.name"/>
+        <h2 class="text-capitalize"> {{ selectedPokemon.name }}</h2>
+        <p class="">Tipos: {{ selectedPokemon.types.join(', ') }}</p>
+        <div class="stats">
+          <p>Peso: {{ selectedPokemon.weight }}</p>
+          <p>Altura: {{ selectedPokemon.height }}</p>
+        </div>
+      </v-card>
     </v-dialog>
   </v-app>
 </template>
 
 <style>
-  .pokemon-card {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    background-color: #f8f8f8;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-family: sans-serif;
-  }
-  .pokemon-card img {
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 5px;
-  }
-  .pokemon-card h2 {
-    font-size: 24px;
-    color: #333;
-    margin: 10px 0;
-    text-transform: uppercase;
-  }
-  .pokemon-card p {
-    font-size: 16px;
-    color: #666;
-    margin: 10px 0;
-  }
+.pokemon-card {
+  width: 200px;
+  height: 200px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: sans-serif;
+  overflow: hidden;
+  cursor: pointer;
+  color: #333;
+}
+.pokemon-card img {
+  grid-row: 1 / 3;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.pokemon-card h2 {
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+  font-size: 18px;
+  text-transform: uppercase;
+  margin: 0;
+}
+.pokemon-card p {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+.pokemon-card:hover {
+  background-color: #f8f8f8;
+} 
 </style>
