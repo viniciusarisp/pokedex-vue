@@ -16,12 +16,17 @@ export default {
             busca: "",
             // Controla a exibição da caixa de detalhes do Pokémon selecionado
             showCard: false,
-            // Índice inicial do array de Pokémon a ser exibido na página
-            pageStart: 0,
-            // Índice final do array de Pokémon a ser exibido na página
-            pageEnd: 16,
             // Objeto com as informações do Pokémon selecionado
-            selectedPokemon: {}
+            selectedPokemon: {},
+            //Páginas:
+            pages: {
+                // Índice inicial do array de Pokémon a ser exibido na página
+                pageStart: 0,
+                // Índice final do array de Pokémon a ser exibido na página
+                pageEnd: 16,
+                //Página atual
+                page: 1,
+            }
         }
     },
     methods: {
@@ -71,14 +76,16 @@ export default {
             this.selectedPokemon = pokemon;
         },
         changePage(param) {
-            if (param === 'next' && this.pageEnd !== 480) {
+            if (param === 'next' && this.pages.pageEnd !== 480) {
                 // Avança para a próxima página de pokémons
-                this.pageStart += 16;
-                this.pageEnd += 16;
-            } else if (param === 'prev' && this.pageStart !== 0) {
+                this.pages.pageStart += 16;
+                this.pages.pageEnd += 16;
+                this.pages.page += 1;
+            } else if (param === 'prev' && this.pages.pageStart !== 0) {
                 // Volta para a página anterior de pokémons
-                this.pageStart -= 16;
-                this.pageEnd -= 16;
+                this.pages.pageStart -= 16;
+                this.pages.pageEnd -= 16;
+                this.pages.page -= 1;
             }
         }
     },
@@ -104,8 +111,9 @@ export default {
 
 <template>
     <v-app>
-        <v-main class="pa-10">
-            <v-text-field v-model="busca" label="Search Pokemon" placeholder='"Pikachu", "Grass"' solo></v-text-field>
+        <v-main class="ma-10">
+            <v-text-field v-model="busca" class="font-weight-bold white--text" label="Search Pokemon"
+                placeholder='"Pikachu", "Grass"' solo></v-text-field>
             <v-card>
                 <v-row>
                     <v-col class="d-flex justify-start">
@@ -114,17 +122,19 @@ export default {
                     </v-col>
                     <v-col class="d-flex justify-end">
                         <v-btn @click="changePage('prev')" class="mx-3">previous page</v-btn>
-                        <v-btn @click="changePage('next')">next page</v-btn>
+                        <v-btn @click="changePage('next')" class="mx-3">next page</v-btn>
+                        <div class="mx-3">{{ this.pages.page }} / 30</div>
                     </v-col>
+
                 </v-row>
                 <v-row>
-                    <v-col sm="5" md="3" lg="4" v-for="pokemon in pokesFiltrados.slice(this.pageStart, this.pageEnd)"
-                        :key="pokemon.name" class="">
-                        <v-card class="pokemon-card ma-1" :value="pokemon.name" v-on:click="showPokemon(pokemon)"
-                            elevation="2">
-                            <v-container class="text-center">
+                    <v-col sm="12" md="4" lg="3"
+                        v-for="pokemon in pokesFiltrados.slice(this.pages.pageStart, this.pages.pageEnd)"
+                        :key="pokemon.name" class="" elevation="4">
+                        <v-card class='pokemon-card' v-on:click="showPokemon(pokemon)" elevation="2">
+                            <v-container :class="pokemon.types[0]">
                                 <v-row class="mx-2 justify-center align-items-center flex-column">
-                                    <h2 class="text-capitalize"> {{ pokemon.name }}</h2>
+                                    <h2 class="text-capitalize text-center"> {{ pokemon.name }}</h2>
                                     <v-img :src="pokemon.sprite" :alt="pokemon.name" height="200"></v-img>
                                 </v-row>
                             </v-container>
@@ -135,11 +145,17 @@ export default {
         </v-main>
         <v-dialog v-model="showCard" width="300">
             <v-card class="pokedex-card text-center pa-5">
+                <v-header class="d-flex justify-end">
+                    <v-btn variant="outlined" color="red accent-4" dark @click="showCard = !showCard" />
+                </v-header>
+                
                 <img :src="selectedPokemon.sprite" :alt="selectedPokemon.name" />
+
                 <h2 class="text-capitalize"> {{ selectedPokemon.name }}</h2>
 
-                <p class="">types: {{ selectedPokemon.types.join(', ') }}</p>
-
+                <v-row v-for="type in selectedPokemon.types" :key="type">
+                    <v-col>{{ type }}</v-col>
+                </v-row>
                 <p class="">abilities: {{ selectedPokemon.abilities.join(', ') }}</p>
 
                 <div class="stats">
@@ -152,10 +168,12 @@ export default {
 </template>
 
 <style>
+
 .pokemon-card {
-    height: 80%;
-    width: 80%;
+    height: 100%;
+    width: 100%;
 }
+
 .tipos-poke span {
     border: 2px solid black;
 }
