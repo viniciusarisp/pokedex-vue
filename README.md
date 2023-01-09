@@ -6,8 +6,8 @@ O seu objetivo é construir uma interface simples para uma listagem de pokémons
 - Listagem de pokémons // ok
   - Ordenação da listagem
   - Filtro da listagem
-    - Busca por **Nome**
-    - Busca por **Tipo**
+    - Busca por **Nome** //ok
+    - Busca por **Tipo**  //ok
     - (outro(s) item(s) à sua escolha)
 - Exibição dos dados do Pokémon (ao clicar sobre o pokémon na listagem)
   - Foto /ok

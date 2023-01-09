@@ -42,7 +42,18 @@ export default {
     },
     sortById(pokemons) {
       pokemons.sort((a, b) => {
-      return b.id - a.id;
+      return a.id - b.id;
+      });
+    },
+    sortByName(pokemons) {
+    pokemons.sort((a, b) => {
+      if (a.name < b.name) {
+        return -1;
+      } else if (a.name > b.name) {
+        return 1;
+      } else {
+        return 0;
+      }
       });
     },
     show_pokemon(pokemon) {
@@ -73,7 +84,8 @@ export default {
 <template>
   <v-app>
     <v-main>
-      <v-container>
+      <v-btn @click="sortByName(pokemons)">Ordenar por nome</v-btn>
+      <v-btn @click="sortById(pokemons)">Ordenar por ID</v-btn>
         <v-card>
           <v-text-field
             v-model="busca"
@@ -82,10 +94,10 @@ export default {
             solo
           ></v-text-field>
           <v-row>
-            <v-col cols="3" v-for="pokemon in pokesFiltrados" :key="pokemon.name" class="">
-              <v-card class="pokemon-card ma-2" :value="pokemon.name" v-on:click="show_pokemon(pokemon)">
+            <v-col cols="4" sm="3" md="3" lg="4" v-for="pokemon in pokesFiltrados" :key="pokemon.name" class="">
+              <v-card class="pokemon-card ma-3" :value="pokemon.name" v-on:click="show_pokemon(pokemon)">
                 <v-container>
-                  <v-row class="mx-2 d-flex justify-center">
+                  <v-row class="mx-2 d-flex justify-center align-items-center">
                     <img
                       :src="pokemon.sprite"
                       :alt="pokemon.name"
@@ -93,16 +105,15 @@ export default {
                     />
                     <h2 class="text-center text-capitalize"> {{ pokemon.name }}</h2>
                   </v-row>
-                  <p class="text-center type-text">{{ pokemon.types.join(', ') }}</p>
                 </v-container>
+                <p class="text-center type-text">{{ pokemon.types.join(', ') }}</p>
               </v-card>
             </v-col>
           </v-row>
         </v-card>
-      </v-container>
     </v-main>
     <v-dialog v-model="showCard" width="300">
-      <v-card class="pokedex-card text-center">
+      <v-card class="pokedex-card text-center pa-5">
         <img :src="selectedPokemon.sprite" :alt="selectedPokemon.name"/>
         <h2 class="text-capitalize"> {{ selectedPokemon.name }}</h2>
         <p class="">Tipos: {{ selectedPokemon.types.join(', ') }}</p>
@@ -116,42 +127,5 @@ export default {
 </template>
 
 <style>
-.pokemon-card {
-  width: 200px;
-  height: 200px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  font-family: sans-serif;
-  overflow: hidden;
-  cursor: pointer;
-  color: #333;
-}
-.pokemon-card img {
-  grid-row: 1 / 3;
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-.pokemon-card h2 {
-  grid-column: 2 / 3;
-  grid-row: 1 / 2;
-  font-size: 18px;
-  text-transform: uppercase;
-  margin: 0;
-}
-.pokemon-card p {
-  grid-column: 2 / 3;
-  grid-row: 2 / 3;
-  font-size: 14px;
-  color: #666;
-  margin: 0;
-}
-.pokemon-card:hover {
-  background-color: #f8f8f8;
-} 
+
 </style>
