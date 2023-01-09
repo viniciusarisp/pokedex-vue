@@ -19,15 +19,15 @@ export default {
     getList(url) {
       //busca a página de pokemons
       axios.get(url).then((response) => {
-        var results = response.data.results;
-        results.forEach((item)=>{
-          //busca todos os dados de cada pokemon na página
-          axios.get(item.url).then((itemResponse) => {
-            this.pokemons.push(this.parsePokemon(itemResponse.data))
-          })
+        const requests = response.data.results.map((item) => axios.get(item.url));
+        //aguarda todos os dados solicitados chegarem
+        Promise.all(requests).then((results) => {
+          //com todos os dados aqui, popula pokemons
+          this.pokemons = results.map((itemResponse) => this.parsePokemon(itemResponse.data));
         });
       });
-      this.pokemons = this.sortById(this.pokemons);
+      //faz o sort por ID
+      this.sortById(this.pokemons);
     },
     parsePokemon(pokemon){
       return {
@@ -41,17 +41,9 @@ export default {
       }
     },
     sortById(pokemons) {
-      var length = pokemons.length;
-      for (var i = 1; i < length; i++) {
-        var current = pokemons[i];
-        var j = i - 1;
-        while ((j > -1) && (current.id < pokemons[j].id)) {
-            pokemons[j + 1] = pokemons[j];
-            j--;
-        }
-        pokemons[j+1] = current;
-      }
-      return pokemons;
+      pokemons.sort((a, b) => {
+      return b.id - a.id;
+      });
     },
     show_pokemon() {
       this.showCard = !this.showCard
@@ -59,7 +51,7 @@ export default {
   },
 
   mounted() {
-    var url = "https://pokeapi.co/api/v2/pokemon?limit=20&offset=0";
+    var url = "https://pokeapi.co/api/v2/pokemon?limit=50&offset=0";
     this.getList(url);
   },
   computed: {
