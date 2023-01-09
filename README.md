@@ -4,8 +4,8 @@ A Before está organizando uma gincana de Caça-Pokémon entre suas equipes inte
 O seu objetivo é construir uma interface simples para uma listagem de pokémons. A lista de pokémons pode ser obtida da API <https://pokeapi.co/>. Sua interface irá consumir os valores desta api e deverá realizar algumas funções:
 
 - Listagem de pokémons // ok
-  - Ordenação da listagem
-  - Filtro da listagem
+  - Ordenação da listagem //ok
+  - Filtro da listagem  //ok
     - Busca por **Nome** //ok
     - Busca por **Tipo**  //ok
     - (outro(s) item(s) à sua escolha)
@@ -13,8 +13,8 @@ O seu objetivo é construir uma interface simples para uma listagem de pokémons
   - Foto /ok
   - Nome /ok 
   - Tipo /ok
-  - Habilidades 
-  - Tamanho e peso
+  - Habilidades /ok
+  - Tamanho e peso /ok 
 ## Itens que podem ser implementados e acrescentam pontos:
 - Paginação da listagem
 ## Regras para o desenvolvimento da Interface:
