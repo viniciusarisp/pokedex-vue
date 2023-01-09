@@ -1,3 +1,4 @@
+
 <script>
 import axios from 'axios';
 
@@ -9,6 +10,8 @@ export default {
   data() {
     return {
       pokemons: [],
+      busca: "",
+      showCard: false,
     }
   },
 
@@ -24,8 +27,7 @@ export default {
           })
         });
       });
-      this.pokemons.sort(this.sortById())
-      console.log(this.pokemons)
+      this.pokemons = this.sortById(this.pokemons);
     },
     parsePokemon(pokemon){
       return {
@@ -38,18 +40,35 @@ export default {
         "sprite": Math.floor(Math.random()*20) > 1 ? pokemon.sprites.front_default : pokemon.sprites.front_shiny, //hihi shiny
       }
     },
-    sortById() {
-      return function (pokemon1, pokemon2) {
-        if (pokemon1.id < pokemon2.id) return -1;
-        if (pokemon1.id > pokemon2.id) return 1;
-        return 0;
-      };
+    sortById(pokemons) {
+      var length = pokemons.length;
+      for (var i = 1; i < length; i++) {
+        var current = pokemons[i];
+        var j = i - 1;
+        while ((j > -1) && (current.id < pokemons[j].id)) {
+            pokemons[j + 1] = pokemons[j];
+            j--;
+        }
+        pokemons[j+1] = current;
+      }
+      return pokemons;
     },
+    show_pokemon() {
+      this.showCard = !this.showCard
+    }
   },
 
   mounted() {
     var url = "https://pokeapi.co/api/v2/pokemon?limit=20&offset=0";
     this.getList(url);
+  },
+  computed: {
+    // Quando a busca muda, recalcula-se o filtro e retorna pokesfiltrados()
+    pokesFiltrados() {
+      return this.pokemons.filter((item) => {
+        return item.name.includes(this.busca)
+      }) 
+    }
   }
 }
 </script>
@@ -58,26 +77,45 @@ export default {
 <template>
   <v-app>
     <v-main>
-              <v-container>
-                <v-card>
-                  <v-row>
-                    <v-col cols="3" v-for="pokemon in pokemons" :key="pokemon.name">
-                      <v-card :value="pokemon.name">
-                        <v-container>
-                          <v-row class="mx-2 d-flex justify-center">
-                            <img 
-                            :src="pokemon.sprite" 
-                            :alt="pokemon.name" 
-                            />
-                            <h2 class="text-center text-capitalize"> {{ pokemon.name }}</h2>
-                          </v-row>
-                        </v-container>
-                      </v-card>
-                    </v-col>
+      <v-container>
+        <v-card>
+          <v-text-field
+          v-model="busca"
+          label="Buscar Pokemon"
+          placeholder="pikachu"
+          solo
+          >
+          </v-text-field>
+          <v-row>
+            <v-col cols="3" v-for="pokemon in pokesFiltrados" :key="pokemon.name">
+              <v-card :value="pokemon.name" v-on:click="show_pokemon(pokemon)">
+                <v-container>
+                  <v-row class="mx-2 d-flex justify-center">
+                    <img 
+                      :src="pokemon.sprite" 
+                      :alt="pokemon.name"
+                      max-width="100%"
+                    />
+                    <h2 class="text-center text-capitalize"> {{ pokemon.name }}</h2>
                   </v-row>
-                </v-card>
-              </v-container>
+                </v-container>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-container>
     </v-main>
+    <v-dialog
+      v-model="showCard"
+      width="500"
+    >
+      <v-card>
+        <v-container></v-container>
+       </v-card>
+    </v-dialog>
   </v-app>
 </template>
+
+<style>
+</style>
 
