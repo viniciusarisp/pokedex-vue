@@ -16,7 +16,7 @@ O seu objetivo é construir uma interface simples para uma listagem de pokémons
   - Habilidades /ok
   - Tamanho e peso /ok 
 ## Itens que podem ser implementados e acrescentam pontos:
-- Paginação da listagem
+- Paginação da listagem // ok
 ## Regras para o desenvolvimento da Interface:
 - A arquitetura deverá respeitar as boas práticas de requests usando os padrões de RESTful;
 - A implementação deve ser realizada em html, js, vue, react;
