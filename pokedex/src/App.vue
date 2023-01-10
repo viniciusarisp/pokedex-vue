@@ -1,10 +1,9 @@
 <script>
+import popUpCard from './components/popupcard.vue';
 //footer da página
-import footerVue from './components/footer.vue';
-
+import footerVue from './components/footerVue.vue';
 //header da página
 import headerVue from './components/header.vue';
-
 //biblioteca axios para fazer requisições HTTP
 import axios from 'axios';
 
@@ -13,6 +12,7 @@ export default {
     components: {
         footerVue,
         headerVue,
+        popUpCard,
     },
     data() {
         return {
@@ -37,7 +37,7 @@ export default {
     },
     name: 'App',
     // Componentes filhos
-    
+
     // Dados do componente
     data() {
         return {
@@ -107,8 +107,8 @@ export default {
             this.selectedPokemon = pokemon;
         },
         changePage() {
-                this.pages.pageStart = 16*(this.pages.page-1);
-                this.pages.pageEnd = 16*this.pages.page;
+            this.pages.pageStart = 16 * (this.pages.page - 1);
+            this.pages.pageEnd = 16 * this.pages.page;
         }
     },
     computed: {
@@ -121,7 +121,7 @@ export default {
                 this.pages.page = 1;
                 return name.includes(search) || type.includes(search);
             });
-          
+
         }
     },
     mounted() {
@@ -147,7 +147,8 @@ export default {
                     </v-col>
                     <v-col class="d-flex justify-end">
                         <div class="text-center">
-                            <v-pagination v-model="pages.page" :length="Math.ceil(pokesFiltrados.length/16)" :total-visible="3" @click="changePage()"></v-pagination>
+                            <v-pagination v-model="pages.page" :length="Math.ceil(pokesFiltrados.length / 16)"
+                                :total-visible="3" @click="changePage()"></v-pagination>
                         </div>
                     </v-col>
                 </v-row>
@@ -167,6 +168,7 @@ export default {
                 </v-row>
             </v-card>
         </v-main>
+        <popUpCard />
         <v-dialog v-model="showCard" width="300">
             <v-card class="pokedex-card text-center pa-5 d-flex">
                 <img :src="selectedPokemon.sprite" :alt="selectedPokemon.name" width="300"

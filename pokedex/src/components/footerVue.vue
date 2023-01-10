@@ -1,6 +1,6 @@
 <script>
 export default {
-      name: 'footer',
+      name: 'footerVue',
       components: {},
 
       data: () => ({
