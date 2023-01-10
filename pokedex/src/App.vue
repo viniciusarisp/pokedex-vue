@@ -1,9 +1,30 @@
-
 <script>
 //biblioteca axios para fazer requisições HTTP
 import axios from 'axios';
 
 export default {
+
+    data() {
+        return {
+            // Array de objetos com as informações dos Pokémon
+            pokemons: [],
+            // Valor da busca
+            busca: "",
+            // Controla a exibição da caixa de detalhes do Pokémon selecionado
+            showCard: false,
+            // Objeto com as informações do Pokémon selecionado
+            selectedPokemon: {},
+            //Páginas:
+            pages: {
+                // Índice inicial do array de Pokémon a ser exibido na página
+                pageStart: 0,
+                // Índice final do array de Pokémon a ser exibido na página
+                pageEnd: 16,
+                //Página atual
+                page: 1,
+            }
+        }
+    },
     name: 'App',
     // Componentes filhos
     components: {},
@@ -75,18 +96,9 @@ export default {
             // Atualiza o pokémon selecionado
             this.selectedPokemon = pokemon;
         },
-        changePage(param) {
-            if (param === 'next' && this.pages.pageEnd !== 480) {
-                // Avança para a próxima página de pokémons
-                this.pages.pageStart += 16;
-                this.pages.pageEnd += 16;
-                this.pages.page += 1;
-            } else if (param === 'prev' && this.pages.pageStart !== 0) {
-                // Volta para a página anterior de pokémons
-                this.pages.pageStart -= 16;
-                this.pages.pageEnd -= 16;
-                this.pages.page -= 1;
-            }
+        changePage() {
+                this.pages.pageStart = 16*(this.pages.page-1);
+                this.pages.pageEnd = 16*this.pages.page;
         }
     },
     computed: {
@@ -96,8 +108,10 @@ export default {
             return this.pokemons.filter(item => {
                 const name = item.name.toLowerCase();
                 const type = item.types.map(type => type.toLowerCase());
+                this.pages.page = 1;
                 return name.includes(search) || type.includes(search);
             });
+          
         }
     },
     mounted() {
@@ -121,14 +135,13 @@ export default {
                         <v-btn @click="sortById(pokemons)" class="mx-3">order by ID</v-btn>
                     </v-col>
                     <v-col class="d-flex justify-end">
-                        <v-btn @click="changePage('prev')" class="mx-3">previous page</v-btn>
-                        <v-btn @click="changePage('next')" class="mx-3">next page</v-btn>
-                        <div class="mx-3">{{ this.pages.page }} / 30</div>
+                        <div class="text-center">
+                            <v-pagination v-model="pages.page" :length="Math.ceil(pokesFiltrados.length/16)" :total-visible="3" @click="changePage()"></v-pagination>
+                        </div>
                     </v-col>
-
                 </v-row>
                 <v-row>
-                    <v-col sm="12" md="4" lg="3"
+                    <v-col sm="5" md="3" lg="3"
                         v-for="pokemon in pokesFiltrados.slice(this.pages.pageStart, this.pages.pageEnd)"
                         :key="pokemon.name" class="" elevation="4">
                         <v-card class='pokemon-card' v-on:click="showPokemon(pokemon)" elevation="2">
@@ -144,38 +157,45 @@ export default {
             </v-card>
         </v-main>
         <v-dialog v-model="showCard" width="300">
-            <v-card class="pokedex-card text-center pa-5">
-                <v-header class="d-flex justify-end">
-                    <v-btn variant="outlined" color="red accent-4" dark @click="showCard = !showCard" />
-                </v-header>
-                
-                <img :src="selectedPokemon.sprite" :alt="selectedPokemon.name" />
+            <v-card class="pokedex-card text-center pa-5 d-flex">
+                <img :src="selectedPokemon.sprite" :alt="selectedPokemon.name" width="300"
+                    class="inline-block ma-auto" />
 
-                <h2 class="text-capitalize"> {{ selectedPokemon.name }}</h2>
+                <h2 class="text-capitalize my-2"> {{ selectedPokemon.name }}</h2>
 
                 <v-row v-for="type in selectedPokemon.types" :key="type">
-                    <v-col>{{ type }}</v-col>
+                    <v-col :class="type" class="rounded-pill">{{ type }}</v-col>
                 </v-row>
-                <p class="">abilities: {{ selectedPokemon.abilities.join(', ') }}</p>
+                <v-row>
+                    <v-col>
+                        <p class="">abilities: {{ selectedPokemon.abilities.join(', ') }}</p>
+                    </v-col>
+                    <v-col>
+                        <p>weight: {{ selectedPokemon.weight }} kg</p>
+                        <p>height: {{ selectedPokemon.height }} m</p>
+                    </v-col>
+                </v-row>
 
-                <div class="stats">
-                    <p>weight: {{ selectedPokemon.weight }} kg</p>
-                    <p>height: {{ selectedPokemon.height }} m</p>
-                </div>
+
+
             </v-card>
         </v-dialog>
     </v-app>
 </template>
 
 <style>
+.pokedex-card {
+    width: 110%;
+    height: 110%;
+}
+
+.pokedex-card>* {
+    padding: 5px;
+}
 
 .pokemon-card {
     height: 100%;
     width: 100%;
-}
-
-.tipos-poke span {
-    border: 2px solid black;
 }
 
 .grass {
