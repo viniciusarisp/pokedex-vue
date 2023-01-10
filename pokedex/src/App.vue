@@ -1,9 +1,19 @@
 <script>
+//footer da página
+import footerVue from './components/footer.vue';
+
+//header da página
+import headerVue from './components/header.vue';
+
 //biblioteca axios para fazer requisições HTTP
 import axios from 'axios';
 
 export default {
 
+    components: {
+        footerVue,
+        headerVue,
+    },
     data() {
         return {
             // Array de objetos com as informações dos Pokémon
@@ -27,7 +37,7 @@ export default {
     },
     name: 'App',
     // Componentes filhos
-    components: {},
+    
     // Dados do componente
     data() {
         return {
@@ -116,7 +126,7 @@ export default {
     },
     mounted() {
         // Faz uma requisição à API de pokémons ao montar o componente
-        const url = "https://pokeapi.co/api/v2/pokemon?limit=480&offset=0";
+        const url = "https://pokeapi.co/api/v2/pokemon?limit=32&offset=0";
         this.getList(url);
     },
 }
@@ -125,6 +135,7 @@ export default {
 
 <template>
     <v-app>
+        <headerVue />
         <v-main class="ma-10">
             <v-text-field v-model="busca" class="font-weight-bold white--text" label="Search Pokemon"
                 placeholder='"Pikachu", "Grass"' solo></v-text-field>
@@ -175,11 +186,9 @@ export default {
                         <p>height: {{ selectedPokemon.height }} m</p>
                     </v-col>
                 </v-row>
-
-
-
             </v-card>
         </v-dialog>
+        <footerVue />
     </v-app>
 </template>
 
