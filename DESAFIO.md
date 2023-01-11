@@ -19,10 +19,10 @@ O seu objetivo é construir uma interface simples para uma listagem de pokémons
 - Paginação da listagem // ok
 ## Regras para o desenvolvimento da Interface:
 - A arquitetura deverá respeitar as boas práticas de requests usando os padrões de RESTful;
-- A implementação deve ser realizada em html, js, vue, react;
-- Pode-se utilizar frameworks para customização de estilos (Bootstrap, Materialize, Foundation, Semantic UI, etc) 
+- A implementação deve ser realizada em html, js, vue, react; //ok
+- Pode-se utilizar frameworks para customização de estilos (Bootstrap, Materialize, Foundation, Semantic UI, etc) //ok vuetify
 ## Como sua prova será avaliada:
-- Implementação da listagem;
+- Implementação da listagem; 
 - Lógica para ordenar a listagem;
 - Lógica para filtrar a listagem;
 - Lógica utilizada para construção da interface;
