@@ -1,65 +1,39 @@
 <script>
+//lista de pokemons, busca e ordenação
+import MainList from './components/MainList.vue';
 //popUp ao clicar no pokémon
-import popUpCard from './components/popupcard.vue';
+import PopUpCard from './components/PopUpCard.vue';
 //footer da página
-import footerVue from './components/footerVue.vue';
+import MainFooter from './components/MainFooter.vue';
 //header da página
-import headerVue from './components/headerVue.vue';
+import MainHeader from './components/MainHeader.vue';
 //biblioteca axios para fazer requisições HTTP
 import axios from 'axios';
 
 export default {
-
   components: {
-    footerVue,
-    headerVue,
-    popUpCard,
-  },
-  data() {
-    return {
-      // Array de objetos com as informações dos Pokémon
-      pokemons: [],
-      // Valor da busca
-      busca: "",
-      // Objeto com as informações do Pokémon selecionado
-      selectedPokemon: {},
-      //Páginas:
-      pages: {
-        // Índice inicial do array de Pokémon a ser exibido na página
-        pageStart: 0,
-        // Índice final do array de Pokémon a ser exibido na página
-        pageEnd: 16,
-        //Página atual
-        page: 1,
-      }
-    }
+    MainFooter,
+    MainHeader,
+    PopUpCard,
+    MainList,
   },
   name: 'App',
-  // Componentes filhos
-
-  // Dados do componente
   data() {
     return {
       // Array de objetos com as informações dos Pokémon
       pokemons: [],
-      // Valor da busca
-      busca: "",
       // Controla a exibição da caixa de detalhes do Pokémon selecionado
       showCard: false,
       // Objeto com as informações do Pokémon selecionado
       selectedPokemon: {},
-      //Páginas:
-      pages: {
-        // Índice inicial do array de Pokémon a ser exibido na página
-        pageStart: 0,
-        // Índice final do array de Pokémon a ser exibido na página
-        pageEnd: 16,
-        //Página atual
-        page: 1,
-      }
     }
   },
   methods: {
+    //trata o pokemon recebido por MainList.vue
+    setPokemon(pokemon) {
+      this.selectedPokemon = pokemon;
+      this.showCard = !this.showCard;
+    },
     async getList(url) {
       try {
         // Faz uma requisição GET à URL passada como parâmetro
@@ -70,8 +44,6 @@ export default {
         const results = await Promise.all(requests);
         // Atualiza a lista de pokémons com os dados obtidos nas requisições
         this.pokemons = results.map(itemResponse => this.parsePokemon(itemResponse.data));
-        // Ordena a lista de pokémons pelo ID
-        this.sortById(this.pokemons);
       } catch (error) {
         console.error(error);
       }
@@ -87,105 +59,27 @@ export default {
         "sprite": Math.random() > 0.05 ? pokemon.sprites.front_default : pokemon.sprites.front_shiny,
       }
     },
-    sortById(pokemons) {
-      // Ordena a lista de pokémons pelo ID
-      pokemons.sort((a, b) => a.id - b.id);
-    },
-    sortByName(pokemons) {
-      // Ordena a lista de pokémons pelo nome
-      pokemons.sort((a, b) => {
-        if (a.name < b.name) return -1;
-        if (a.name > b.name) return 1;
-        return 0;
-      });
-    },
-    showPokemon(pokemon) {
-      // Alterna a exibição da "card" de um pokémon
-      this.showCard = !this.showCard;
-      // Atualiza o pokémon selecionado
-      this.selectedPokemon = pokemon;
-    },
-    changePage() {
-      //Defino o range da página selecionada
-      this.pages.pageStart = 16 * (this.pages.page - 1);
-      this.pages.pageEnd = 16 * this.pages.page;
-    }
   },
-  computed: {
-    pokesFiltrados() {
-      // Filtra a lista de pokémons com base na busca
-      const search = this.busca.toLowerCase();
-      return this.pokemons.filter(item => {
-        const name = item.name.toLowerCase();
-        const type = item.types.map(type => type.toLowerCase());
-        this.pages.page = 1;
-        return name.includes(search) || type.includes(search);
-      });
-
-    }
-  },
-  mounted() {
-    // Faz uma requisição à API de pokémons ao montar o componente
-    const url = "https://pokeapi.co/api/v2/pokemon?limit=32&offset=0";
-    this.getList(url);
-  },
+    mounted() {
+      // Faz uma requisição à API de pokémons ao montar o componente
+      const url = "https://pokeapi.co/api/v2/pokemon?limit=32&offset=0";
+      this.getList(url);
+    },
 }
 </script>
 
-
 <template>
   <v-app>
-    <headerVue />
-    <v-main class="ma-10">
-      <v-text-field v-model="busca" class="font-weight-bold white--text" label="Search Pokemon"
-        placeholder='"Pikachu", "Grass"' solo></v-text-field>
-      <v-card>
-        <v-row>
-          <v-col class="d-flex justify-start">
-            <v-btn @click="sortByName(pokemons)" class="mx-3">order by name</v-btn>
-            <v-btn @click="sortById(pokemons)" class="mx-3">order by ID</v-btn>
-          </v-col>
-          <v-col class="d-flex justify-end">
-            <div class="text-center">
-              <v-pagination v-model="pages.page" :length="Math.ceil(pokesFiltrados.length / 16)" :total-visible="3"
-                @click="changePage()"></v-pagination>
-            </div>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col sm="5" md="3" lg="3" v-for="pokemon in pokesFiltrados.slice(this.pages.pageStart, this.pages.pageEnd)"
-            :key="pokemon.name" class="" elevation="4">
-            <v-card class='pokemon-card' v-on:click="showPokemon(pokemon)" elevation="2">
-              <v-container :class="pokemon.types[0]">
-                <v-row class="mx-2 justify-center align-items-center flex-column">
-                  <h2 class="text-capitalize text-center"> {{ pokemon.name }}</h2>
-                  <v-img :src="pokemon.sprite" :alt="pokemon.name" height="200"></v-img>
-                </v-row>
-              </v-container>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-card>
-    </v-main>
-    <popUpCard :selectedPokemon="selectedPokemon" v-model="showCard" />
-    <footerVue />
+    <MainHeader />
+    <!-- Mainlist devolve o pokemon selecionado para app.vue -->
+    <MainList :pokemons="pokemons" @selectPokemon="setPokemon($event)"/>
+    <!-- PopUpCard Recebe o pokemon selecionado após ser definido na função setPokemon -->
+    <PopUpCard :selectedPokemon="selectedPokemon" v-model="showCard" />
+    <MainFooter />
   </v-app>
 </template>
 
 <style>
-.pokedex-card {
-  width: 110%;
-  height: 110%;
-}
-
-.pokedex-card>* {
-  padding: 5px;
-}
-
-.pokemon-card {
-  height: 100%;
-  width: 100%;
-}
 .grass {
   background-color: #8bd8517e;
 }
