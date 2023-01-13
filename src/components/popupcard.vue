@@ -8,7 +8,7 @@
 </script>
 
 <template>
-  <v-dialog width="300">
+  <v-dialog width="500">
     <v-card class="pokedex-card text-center pa-5 d-flex">
       <h2 class="text-capitalize my-2"> {{ selectedPokemon.name }}</h2>
       <img :src="selectedPokemon.sprite" :alt="selectedPokemon.name" width="300" class="inline-block ma-auto" />

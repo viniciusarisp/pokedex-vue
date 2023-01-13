@@ -71,7 +71,7 @@ export default {
     </v-text-field>
     <v-card>
       <v-row>
-        <v-col class="d-flex justify-start">
+        <v-col class="d-flex justify-start align-center">
           <v-btn 
             @click="sortByName(pokemons)" 
             class="mx-3">
@@ -113,8 +113,8 @@ export default {
             width="200"
             height="250"
             v-on:click="showPokemon(pokemon)" 
-            elevation="3">
-            <v-container :class="pokemon.types[0]">
+            elevation="8">
+            <v-container :class="pokemon.types[0]" class="">
               <v-row class="d-flex flex-column justify-center" no-gutters>
                 <h2 class="text-capitalize text-center"> {{ pokemon.name }} </h2>
                 <v-img 
@@ -135,4 +135,18 @@ export default {
 </template>
 
 <style>
+.pokemon-card:hover {
+  
+}
+.hvr-grow {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: transform;
+  transition-property: transform;
+}
 </style>
