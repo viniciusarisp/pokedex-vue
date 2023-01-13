@@ -7,7 +7,6 @@ import PopUpCard from './components/PopUpCard.vue';
 import MainFooter from './components/MainFooter.vue';
 //Header da página
 import MainHeader from './components/MainHeader.vue';
-
 //Importa o metódo que gera a lista de pokemons
 import { getList } from './methods/pokeapi';
 
@@ -41,7 +40,7 @@ export default {
   },
     mounted() {
       // Faz uma requisição à API de Pokémons ao montar o componente
-      const url = "https://pokeapi.co/api/v2/pokemon?limit=32&offset=0";
+      const url = "https://pokeapi.co/api/v2/pokemon?limit=40&offset=0";
       this.getList(url);
     },
 }

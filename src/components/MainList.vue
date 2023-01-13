@@ -14,7 +14,7 @@ export default {
         // Índice inicial do array de Pokémon a ser exibido na página
         pageStart: 0,
         // Índice final do array de Pokémon a ser exibido na página
-        pageEnd: 16,
+        pageEnd: 20,
         //Página atual
         page: 1,
       }
@@ -41,8 +41,8 @@ export default {
     },
     changePage() {
       //Defino o range da página selecionada
-      this.pages.pageStart = 16 * (this.pages.page - 1);
-      this.pages.pageEnd = 16 * this.pages.page;
+      this.pages.pageStart = 20 * (this.pages.page - 1);
+      this.pages.pageEnd = 20 * this.pages.page;
     }
   },
   computed: {
@@ -61,30 +61,69 @@ export default {
 
 </script>
 <template>
-  <v-main class="ma-10">
-    <v-text-field v-model="busca" class="font-weight-bold white--text" label="Search Pokemon"
-      placeholder='"Pikachu", "Grass"' solo></v-text-field>
+  <v-main class="">
+    <v-text-field 
+      v-model="busca" 
+      class="" 
+      label="Search Pokemon"
+      placeholder='"Pikachu", "Grass"' 
+      solo>
+    </v-text-field>
     <v-card>
       <v-row>
         <v-col class="d-flex justify-start">
-          <v-btn @click="sortByName(pokemons)" class="mx-3">order by name</v-btn>
-          <v-btn @click="sortById(pokemons)" class="mx-3">order by ID</v-btn>
+          <v-btn 
+            @click="sortByName(pokemons)" 
+            class="mx-3">
+            order by name
+          </v-btn>
+          <v-btn 
+            @click="sortById(pokemons)" 
+            class="mx-3">
+            order by ID
+          </v-btn>
         </v-col>
-        <v-col class="d-flex justify-end">
-          <div class="text-center">
-            <v-pagination v-model="pages.page" :length="Math.ceil(pokesFiltrados.length / 16)" :total-visible="3"
-              @click="changePage()"></v-pagination>
+        <v-col 
+        class="d-flex justify-end">
+          <div class="">
+            <v-pagination 
+              v-model="pages.page" 
+              :length="Math.ceil(pokesFiltrados.length / 20)" 
+              :total-visible="3"
+              @click="changePage()">
+            </v-pagination>
           </div>
         </v-col>
       </v-row>
-      <v-row>
-        <v-col sm="5" md="3" lg="3" v-for="pokemon in pokesFiltrados.slice(this.pages.pageStart, this.pages.pageEnd)"
-          :key="pokemon.name" class="" elevation="4">
-          <v-card class='pokemon-card' v-on:click="showPokemon(pokemon)" elevation="2">
+      <v-row  
+        class="pa-1 ma-4"
+        xs=""
+        sm=""
+        md=""
+        lg=""
+        xl=""
+      >
+        <v-col  
+          v-for="pokemon in pokesFiltrados.slice(this.pages.pageStart, this.pages.pageEnd)"
+          :key="pokemon.name" 
+          class="" 
+          elevation="4">
+          <v-card 
+            class='pokemon-card'  
+            v-on:click="showPokemon(pokemon)" 
+            elevation="3">
             <v-container :class="pokemon.types[0]">
-              <v-row class="mx-2 justify-center align-items-center flex-column">
-                <h2 class="text-capitalize text-center"> {{ pokemon.name }}</h2>
-                <v-img :src="pokemon.sprite" :alt="pokemon.name" height="200"></v-img>
+              <v-row class="d-flex flex-column justify-center" no-gutters>
+                <h2 class="text-capitalize text-center"> {{ pokemon.name }} </h2>
+                <v-img 
+                  class=""
+                  :aspect-ratio="1/1"
+                  :width="width"
+                  :src="pokemon.sprite" 
+                  :alt="pokemon.name"
+                  cover
+                  height="170">
+                </v-img>
               </v-row>
             </v-container>
           </v-card>
@@ -93,3 +132,12 @@ export default {
     </v-card>
   </v-main>
 </template>
+
+<style>
+.pokemon-card {
+  width: 200px;
+  height: 250px;
+}
+.pokemon-card:hover {
+}
+</style>
