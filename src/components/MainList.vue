@@ -1,10 +1,17 @@
 <script>
+import { onMounted } from 'vue';
+
 export default {
   name: 'MainList',
   props: ['pokemons'],
   components: {},
 
   data: () => ({
+    url: 'https://pokeapi.co/api/v2/pokemon?limit=151&offset=0',
+    // String com o valor geração selecionada
+    selectedGeneration: '1ª Geração (1-151)',
+    //Array com os ranges de cada geração de pokemon
+    generations: [],
     // Objeto com as informações do Pokémon selecionado
     selectedPokemon: {},
     // Valor da busca
@@ -43,6 +50,11 @@ export default {
       //Defino o range da página selecionada
       this.pages.pageStart = 20 * (this.pages.page - 1);
       this.pages.pageEnd = 20 * this.pages.page;
+    },
+    setGeneration(selectedGeneration) {
+      let genNumbers = selectedGeneration.match(/(\d+)/g)
+      console.log(genNumbers)
+      this.$emit('urlAPI', this.url)
     }
   },
   computed: {
@@ -56,6 +68,9 @@ export default {
         return name.includes(search) || type.includes(search);
       });
     }
+  },
+  beforeMount() {
+    this.setGeneration(this.selectedGeneration)
   }
 }
 
@@ -82,6 +97,16 @@ export default {
             class="mx-3">
             order by ID
           </v-btn>
+        </v-col>
+        <v-col>
+          <v-select
+            v-model="selectedGeneration"
+            chips
+            label="Geração"
+              :items="['1ª Geração (1-151)', '2ª Geração (151-251)', '3ª Geração (251-386)', '4ª Geração (386-493)', '5ª Geração (493-649)', '6ª Geração (649-721)', '7ª Geração (721-809)','8ª Geração (809-905)']"
+            variant="underlined"
+            @update:modelValue="setGeneration(selectedGeneration)"
+          ></v-select>
         </v-col>
         <v-col 
         class="d-flex justify-end">
@@ -126,7 +151,7 @@ export default {
                   height="170">
                 </v-img>
               </v-row>
-              <p class="font-weight-medium text-left"> #{{ pokemon.id }}</p>
+              <p class="font-weight-medium text-left"> #{{ pokemon.id.toString().padStart(3,'0') }}</p>
             </v-container> 
           </v-card>
         </v-col>

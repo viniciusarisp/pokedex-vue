@@ -24,6 +24,6 @@ export function parsePokemon(pokemon) {
     "weight": pokemon.weight / 10, // converter para kg
     "abilities": pokemon.abilities.map(item => item.ability.name),
     "types": pokemon.types.map(item => item.type.name),
-    "sprite": Math.random() > 0.05 ? pokemon.sprites.front_default : pokemon.sprites.front_shiny,
+    "sprite": Math.random() > 0.5 ? pokemon.sprites.front_default : pokemon.sprites.front_shiny,
   }
 }

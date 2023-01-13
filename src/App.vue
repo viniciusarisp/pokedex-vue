@@ -34,23 +34,19 @@ export default {
       this.selectedPokemon = pokemon;
       this.showCard = !this.showCard;
     },
+    //Chama a função getList importada da pokeapi.js
     async getList(url){
       this.pokemons = await getList(url)
     }
   },
-    mounted() {
-      // Faz uma requisição à API de Pokémons ao montar o componente
-      const url = "https://pokeapi.co/api/v2/pokemon?limit=40&offset=0";
-      this.getList(url);
-    },
 }
 </script>
 
 <template>
   <v-app>
     <MainHeader />
-    <!-- Mainlist devolve o Pokémon selecionado para app.vue -->
-    <MainList :pokemons="pokemons" @selectPokemon="setPokemon($event)"/>
+    <!-- Mainlist devolve o Pokémon e a geração(url) selecionado para app.vue --> 
+    <MainList :pokemons="pokemons" @selectPokemon="setPokemon($event)" @urlAPI="this.getList($event)"/>
     <!-- PopUpCard Recebe o Pokémon selecionado após ser definido na função setPokemon -->
     <PopUpCard :selectedPokemon="selectedPokemon" v-model="showCard" />
     <MainFooter />
