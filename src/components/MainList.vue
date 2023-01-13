@@ -9,7 +9,7 @@ export default {
   data: () => ({
     url: 'https://pokeapi.co/api/v2/pokemon?limit=151&offset=0',
     // String com o valor geração selecionada
-    selectedGeneration: '1ª Geração (1-151)',
+    selectedGeneration: '1ª Geração (0-151)',
     //Array com os ranges de cada geração de pokemon
     generations: [],
     // Objeto com as informações do Pokémon selecionado
@@ -53,7 +53,9 @@ export default {
     },
     setGeneration(selectedGeneration) {
       let genNumbers = selectedGeneration.match(/(\d+)/g)
-      console.log(genNumbers)
+      let offset = genNumbers[1]
+      let limit = genNumbers[2]-genNumbers[1]
+      this.url = `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`
       this.$emit('urlAPI', this.url)
     }
   },
@@ -103,7 +105,7 @@ export default {
             v-model="selectedGeneration"
             chips
             label="Geração"
-              :items="['1ª Geração (1-151)', '2ª Geração (151-251)', '3ª Geração (251-386)', '4ª Geração (386-493)', '5ª Geração (493-649)', '6ª Geração (649-721)', '7ª Geração (721-809)','8ª Geração (809-905)']"
+              :items="['1ª Geração (0-151)', '2ª Geração (151-251)', '3ª Geração (251-386)', '4ª Geração (386-493)', '5ª Geração (493-649)', '6ª Geração (649-721)', '7ª Geração (721-809)','8ª Geração (809-905)']"
             variant="underlined"
             @update:modelValue="setGeneration(selectedGeneration)"
           ></v-select>
@@ -122,11 +124,6 @@ export default {
       </v-row>
       <v-row  
         class="pa-1 ma-4"
-        xs=""
-        sm=""
-        md=""
-        lg=""
-        xl=""
       >
         <v-col  
           v-for="pokemon in pokesFiltrados.slice(this.pages.pageStart, this.pages.pageEnd)"
