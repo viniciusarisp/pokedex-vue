@@ -138,6 +138,4 @@ export default {
   width: 200px;
   height: 250px;
 }
-.pokemon-card:hover {
-}
 </style>
