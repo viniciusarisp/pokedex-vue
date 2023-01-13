@@ -110,6 +110,8 @@ export default {
           elevation="4">
           <v-card 
             class='pokemon-card'  
+            width="200"
+            height="250"
             v-on:click="showPokemon(pokemon)" 
             elevation="3">
             <v-container :class="pokemon.types[0]">
@@ -118,7 +120,6 @@ export default {
                 <v-img 
                   class=""
                   :aspect-ratio="1/1"
-                  :width="width"
                   :src="pokemon.sprite" 
                   :alt="pokemon.name"
                   cover
@@ -134,8 +135,4 @@ export default {
 </template>
 
 <style>
-.pokemon-card {
-  width: 200px;
-  height: 250px;
-}
 </style>
