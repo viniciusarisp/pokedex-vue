@@ -1,4 +1,15 @@
-# Pokedex Api with vue 3 and vuetify
+# <h1>Pokedex Api with vue 3 and vuetify</h1>
+
+Acesso ao projeto: https://prova-est-front-vinicius-aristimunha.vercel.app
+
+Para executar o projeto basta clonar o repositório e dentro dele pelo terminal executar os seguintes comandos: 
+
+> cd '(pasta do projeto)'    
+> npm install
+> npm run dev
+
+
+<h2>Principais funcionalidades</h2>
 
 <img src="./assets/Docs/mainpage.jpeg" alt="main page">
 
@@ -26,7 +37,7 @@
       <li><a href="http://github.com/viniciusarisp">Github</a></li>
 </ul>
 
-<p>Além disso ao clicarmos na carta de algum Pokémon na lista recebos o seu Card destacado</p>
+<p>Além disso ao clicarmos na carta de algum Pokémon na lista recebemos o seu Card destacado</p>
 <img src="./assets/Docs/pokemoncard.png" alt="Pokemon card">
 <p>No card de pokemon podemos observar algumas informações extras como:</p>
 <ul>
