@@ -69,3 +69,7 @@
 .steel {
   background-color: #c4c2da7a;
 }
+.shiny::after {
+  color: gold;
+  content: ' Shiny⭐';
+}

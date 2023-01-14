@@ -60,7 +60,11 @@ export default {
       this.url = `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`
       //Passa o prop de child > parent component da url 
       this.$emit('urlAPI', this.url)
-    }
+    },
+    isShiny(sprite) {
+      //Analisa a url da img do pokemon para definir se é shiny
+      if (sprite.includes('shiny')) return 'shiny'
+    },
   },
   computed: {
     pokesFiltrados() {
@@ -92,28 +96,30 @@ export default {
       solo>
     </v-text-field>
     <v-card>
-      <v-row>
-        <v-col class="d-flex justify-start align-center">
-          <v-btn 
-            @click="sortByName(pokemons)" 
-            class="mx-3">
-            order by name
-          </v-btn>
-          <v-btn 
-            @click="sortById(pokemons)" 
-            class="mx-3">
-            order by ID
-          </v-btn>
-        </v-col>
+      <v-select
+        v-model="selectedGeneration"
+        class="mx-15"
+        chips
+        label="Geração"
+          :items="['1ª Geração (0-151)', '2ª Geração (151-251)', '3ª Geração (251-386)', '4ª Geração (386-493)', '5ª Geração (493-649)', '6ª Geração (649-721)', '7ª Geração (721-809)','8ª Geração (809-905)']"
+        variant="underlined"
+        @update:modelValue="setGeneration(selectedGeneration)"
+      ></v-select>
+      <v-row class=" d-flex flex-column">
+          <v-col class="d-flex justify-start align-center">
+            <v-btn
+              @click="sortByName(pokemons)"
+              class="mx-3">
+              order by name
+            </v-btn>
+            <v-btn
+              @click="sortById(pokemons)"
+              class="mx-3">
+              order by ID
+            </v-btn>
+          </v-col>
         <v-col>
-          <v-select
-            v-model="selectedGeneration"
-            chips
-            label="Geração"
-              :items="['1ª Geração (0-151)', '2ª Geração (151-251)', '3ª Geração (251-386)', '4ª Geração (386-493)', '5ª Geração (493-649)', '6ª Geração (649-721)', '7ª Geração (721-809)','8ª Geração (809-905)']"
-            variant="underlined"
-            @update:modelValue="setGeneration(selectedGeneration)"
-          ></v-select>
+          
         </v-col>
         <v-col 
         class="d-flex justify-end">
@@ -128,7 +134,7 @@ export default {
         </v-col>
       </v-row>
       <v-row  
-        class="pa-1 ma-4"
+        class="pa-1 my-4"
       >
         <v-col  
           v-for="pokemon in pokesFiltrados.slice(this.pages.pageStart, this.pages.pageEnd)"
@@ -137,7 +143,7 @@ export default {
           elevation="4">
           <v-card 
             class='pokemon-card'  
-            width="200"
+            width="190"
             height="250"
             v-on:click="showPokemon(pokemon)" 
             elevation="8">
@@ -153,7 +159,11 @@ export default {
                   height="170">
                 </v-img>
               </v-row>
-              <p class="font-weight-medium text-left"> #{{ pokemon.id.toString().padStart(3,'0') }}</p>
+              <p class="font-weight-medium text-left" 
+              :class="isShiny(pokemon.sprite)"
+              >
+                #{{ pokemon.id.toString().padStart(3,'0') }}
+              </p>
             </v-container> 
           </v-card>
         </v-col>
