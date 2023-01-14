@@ -93,5 +93,44 @@ export function parsePokemon(pokemon) {
 
 <p>Nesse arquivo exporto duas funções: getlist e parsepokemon</p>
 
-<p>getlist faz o pedido da lista de pokemons para a pokeapi e parsepokemon trata todos dados recebidos para o objeto pokemon</p>
+<p>getlist faz o pedido da lista de pokemons para a pokeapi e parsepokemon trata todos dados recebidos para que fiquem em um objeto novo</p>
+
+<p>Em app.vue (src/app.vue) defino metódo getList também como parte do componente App e importo a função getlist de pokeapi.js</p>
+
+```javascript
+//Importa o metódo que gera a lista de pokemons
+import { getList } from './methods/pokeapi';
+<script>
+  data() {
+    return {
+      // Array de objetos com as informações dos Pokémon
+      pokemons: [],
+    }
+  },
+methods: {
+    //Chama a função getList importada da pokeapi.js
+    async getList(url){
+      this.pokemons = await getList(url)
+    }
+  }
+<script>
+```
+<p>a partir de agora basta chamar o metódo getlist no app principal passando uma url para que os dados de pokemons receba os pokemons solicitados e partir dai possamos criar o template com uma lista de pokemons<p>
+
+<p>No template temos a seguinte estrutura:</p>
+
+```vue
+<template>
+  <v-app>
+    <MainHeader />
+    <!-- Mainlist devolve o Pokémon e a geração(url) selecionado para app.vue --> 
+    <MainList :pokemons="pokemons" @selectPokemon="setPokemon($event)" @urlAPI="this.getList($event)"/>
+    <!-- pokemonCard Recebe o Pokémon selecionado após ser definido na função setPokemon -->
+    <pokemonCard :selectedPokemon="selectedPokemon" v-model="showCard" />
+    <MainFooter />
+  </v-app>
+</template>
+```
+
+<p> MainHeader é o primeiro dos nossos componentes e cabeçalho da página<br>MainList o main contendo a principal função do app<br>pokemonCard que é um 'pop-up'<br>Por fim MainFooter que é o rodapé</p>
 
