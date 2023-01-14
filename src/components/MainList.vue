@@ -20,7 +20,7 @@ export default {
         // Índice inicial do array de Pokémon a ser exibido na página
         pageStart: 0,
         // Índice final do array de Pokémon a ser exibido na página
-        pageEnd: 20,
+        pageEnd: 24,
         //Página atual
         page: 1,
       }
@@ -47,8 +47,8 @@ export default {
     },
     changePage() {
       //Defino o range da página selecionada
-      this.pages.pageStart = 20 * (this.pages.page - 1);
-      this.pages.pageEnd = 20 * this.pages.page;
+      this.pages.pageStart = 24 * (this.pages.page - 1);
+      this.pages.pageEnd = 24 * this.pages.page;
     },
     setGeneration(selectedGeneration) {
       //Separa os números de ID de início e fim de cada geração
@@ -127,7 +127,7 @@ export default {
           <div class="">
             <v-pagination 
               v-model="pages.page" 
-              :length="Math.ceil(pokesFiltrados.length / 20)" 
+              :length="Math.ceil(pokesFiltrados.length / 24)" 
               :total-visible="3"
               @click="changePage()">
             </v-pagination>
