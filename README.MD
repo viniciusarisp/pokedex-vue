@@ -26,3 +26,13 @@
       <li><a href="http://github.com/viniciusarisp">Github</a></li>
 </ul>
 
+<p>Além disso ao clicarmos na carta de algum Pokémon na lista recebos o seu Card destacado</p>
+<img src="./assets/Docs/pokemoncard.png" alt="Pokemon card">
+<p>No card de pokemon podemos observar algumas informações extras como:</p>
+<ul>
+      <li>Seus tipos</li>
+      <li>Habilidades</li>
+      <li>Peso e altura</li>
+</ul>
+
+

@@ -14,7 +14,7 @@
         :src="selectedPokemon.sprite" 
         :alt="selectedPokemon.name" 
         width="280" 
-        class="block ma-auto d-block mb-4 rounded-circle bg-grey-lighten-3" 
+        class="block ma-auto d-block mb-4 rounded-lg bg-grey-lighten-3" 
       />
       <v-row 
         v-for="(type) in selectedPokemon.types"
