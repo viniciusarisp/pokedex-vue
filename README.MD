@@ -19,3 +19,8 @@ Seletor de geração de pokemons, seleciona a geração desejada e mostra os pok
 
 <img src="./assets/Docs/mainpagefooter.jpeg" alt="main page footer">
 Rodapé da página apresenta um simples menu social com os links para 
+<ul>
+      <li><a href="http://wa.me/+5567981814185">Whatsapp</a></li>
+      <li><a href="http://www.linkedin.com/in/viniaris">Linkedin</a></li>
+      <li><a href="http://github.com/viniciusarisp">Github</a></li>
+</ul>
