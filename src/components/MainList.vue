@@ -133,41 +133,41 @@ export default {
           </div>
         </v-col>
       </v-row>
-      <v-row  
-        class="pa-1 my-4"
-      >
-        <v-col  
-          v-for="pokemon in pokesFiltrados.slice(this.pages.pageStart, this.pages.pageEnd)"
-          :key="pokemon.name" 
-          class="" 
-          elevation="4">
-          <v-card 
-            class='pokemon-card'  
-            width="190"
-            height="250"
-            v-on:click="showPokemon(pokemon)" 
-            elevation="8">
-            <v-container :class="pokemon.types[0]">
-              <v-row class="d-flex flex-column justify-center" no-gutters>
-                <h3 class="text-capitalize text-center text-no-wrap"> {{ pokemon.name }} </h3>
-                <v-img 
-                  class=""
-                  :aspect-ratio="1/1"
-                  :src="pokemon.sprite" 
-                  :alt="pokemon.name"
-                  cover
-                  height="170">
-                </v-img>
-              </v-row>
-              <p class="font-weight-medium text-left" 
-              :class="isShiny(pokemon.sprite)"
-              >
-                #{{ pokemon.id.toString().padStart(3,'0') }}
-              </p>
-            </v-container> 
-          </v-card>
-        </v-col>
-      </v-row>
+        <v-row
+          class="pa-1 my-4"
+        >
+          <v-col
+            v-for="pokemon in pokesFiltrados.slice(this.pages.pageStart, this.pages.pageEnd)"
+            :key="pokemon.name"
+            class="d-flex flex-row justify-center"
+            elevation="4">
+            <v-card
+              class='pokemon-card'
+              width="190"
+              height="250"
+              v-on:click="showPokemon(pokemon)"
+              elevation="8">
+              <v-container :class="pokemon.types[0]">
+                <v-row class="d-flex flex-column justify-center" no-gutters>
+                  <h3 class="text-capitalize text-center text-no-wrap"> {{ pokemon.name }} </h3>
+                  <v-img
+                    class=""
+                    :aspect-ratio="1/1"
+                    :src="pokemon.sprite"
+                    :alt="pokemon.name"
+                    cover
+                    height="170">
+                  </v-img>
+                </v-row>
+                <p class="font-weight-medium text-left"
+                :class="isShiny(pokemon.sprite)"
+                >
+                  #{{ pokemon.id.toString().padStart(3,'0') }}
+                </p>
+              </v-container>
+            </v-card>
+          </v-col>
+        </v-row>
     </v-card>
   </v-main>
 </template>
