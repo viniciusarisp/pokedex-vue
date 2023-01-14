@@ -1,6 +1,6 @@
-# <h1>Pokedex Api with vue 3 and vuetify</h1>
+# <h1>Pokedex with vue 3, vuetify and Pokeapi</h1>
 
-Acesso ao projeto: https://prova-est-front-vinicius-aristimunha.vercel.app
+Acesso ao projeto: <a target="_blank">https://prova-est-front-vinicius-aristimunha.vercel.app</a>
 
 Para executar o projeto basta clonar o repositório e dentro dele pelo terminal executar os seguintes comandos: 
 
@@ -46,4 +46,13 @@ Para executar o projeto basta clonar o repositório e dentro dele pelo terminal 
       <li>Peso e altura</li>
 </ul>
 
+<h2>Agora a descrição da funcionalidade e descrição dos metódos usados na construção do app em vue</h2>
+
+<p>Como dito antes eu nunca havia feito nada em Vue então a finalização desse desafio também representa pra mim a capacidade que tive de aprender gradativamente a construir essa interface para depois ir lentamente polindo suas estruturas, componentes, etc.</p>
+
+<p>A primeiro momento criei uma aplicação vue e tentei entender a sua estrutura aos poucos </p>
+
+<p>Depois de me familiarizar um pouco com as estruturas de componentes e do app.vue adicionei o framework ou biblioteca que mais me foi útil durante a construção dessa aplicação: Vuetify, um framework de componentes para Vue</p>
+
+<p>Como primeiro passo estruturei meus requests na Pokeapi através do arquivo pokeapi.js presente em src/methods</p>
 
