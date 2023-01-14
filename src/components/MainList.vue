@@ -1,6 +1,4 @@
 <script>
-import { onMounted } from 'vue';
-
 export default {
   name: 'MainList',
   props: ['pokemons'],
@@ -52,10 +50,15 @@ export default {
       this.pages.pageEnd = 20 * this.pages.page;
     },
     setGeneration(selectedGeneration) {
+      //Separa os números de ID de início e fim de cada geração
       let genNumbers = selectedGeneration.match(/(\d+)/g)
+      //Define o começo da geração
       let offset = genNumbers[1]
+      //Define a quantidade de pokemons na geração selecionada
       let limit = genNumbers[2]-genNumbers[1]
+      //Usa o a quantidade e começo da geração para fazer o request dos pokemons
       this.url = `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`
+      //Passa o prop de child > parent component da url 
       this.$emit('urlAPI', this.url)
     }
   },
@@ -67,11 +70,13 @@ export default {
         const name = item.name.toLowerCase();
         const type = item.types.map(type => type.toLowerCase());
         this.pages.page = 1;
+        //Checa se tanto nome como tipo estão inclusos
         return name.includes(search) || type.includes(search);
       });
     }
   },
   beforeMount() {
+    //Define como padrão a primeira geração antes de carregar a página
     this.setGeneration(this.selectedGeneration)
   }
 }
