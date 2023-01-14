@@ -56,7 +56,8 @@ Para executar o projeto basta clonar o repositório e dentro dele pelo terminal 
 
 <p>Como primeiro passo estruturei meus requests na Pokeapi através do arquivo pokeapi.js presente em src/methods</p>
 
-`//biblioteca axios para fazer requisições HTTP
+```javascript
+//biblioteca axios para fazer requisições HTTP
 import axios from 'axios';
 
 export async function getList(url) {
@@ -87,7 +88,8 @@ export function parsePokemon(pokemon) {
     : 
     `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${pokemon.id}.png`,
   }
-}`
+}
+```
 
 <p>Nesse arquivo exporto duas funções: getlist e parsepokemon</p>
 
