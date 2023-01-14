@@ -31,5 +31,8 @@
     <div>
       {{ new Date().getFullYear() }} — <strong>Vinicius Aristimunha Pinto</strong>
     </div>
+    <div>
+      Seletivo front-end Before
+    </div>
   </v-footer>
 </template>

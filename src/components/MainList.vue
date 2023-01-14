@@ -83,7 +83,7 @@ export default {
 
 </script>
 <template>
-  <v-main class="">
+  <v-main class="ma-2">
     <v-text-field 
       v-model="busca" 
       class="" 
