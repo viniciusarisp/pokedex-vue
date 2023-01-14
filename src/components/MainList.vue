@@ -141,9 +141,9 @@ export default {
             height="250"
             v-on:click="showPokemon(pokemon)" 
             elevation="8">
-            <v-container :class="pokemon.types[0]" class="">
+            <v-container :class="pokemon.types[0]">
               <v-row class="d-flex flex-column justify-center" no-gutters>
-                <h2 class="text-capitalize text-center"> {{ pokemon.name }} </h2>
+                <h3 class="text-capitalize text-center text-no-wrap"> {{ pokemon.name }} </h3>
                 <v-img 
                   class=""
                   :aspect-ratio="1/1"
