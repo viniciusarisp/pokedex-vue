@@ -5,8 +5,9 @@ export default {
   components: {},
 
   data: () => ({
+    //Url do request para a api dependendo de cada geração
     url: 'https://pokeapi.co/api/v2/pokemon?limit=151&offset=0',
-    // String com o valor geração selecionada
+    // String com o valor da geração selecionada
     selectedGeneration: '1ª Geração (0-151)',
     //Array com os ranges de cada geração de pokemon
     generations: [],

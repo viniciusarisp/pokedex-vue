@@ -4,9 +4,11 @@ Acesso ao projeto: <a target="_blank">https://prova-est-front-vinicius-aristimun
 
 Para executar o projeto basta clonar o repositório e dentro dele pelo terminal executar os seguintes comandos: 
 
-> cd '(pasta do projeto)'<br>    
-> npm install<br>
-> npm run dev<br>
+```
+ cd '(pasta do projeto)'    
+ npm install
+ npm run dev
+```
 
 
 <h2>Principais funcionalidades</h2>
@@ -134,3 +136,128 @@ methods: {
 
 <p> MainHeader é o primeiro dos nossos componentes e cabeçalho da página<br>MainList o main contendo a principal função do app<br>pokemonCard que é um 'pop-up'<br>Por fim MainFooter que é o rodapé</p>
 
+<p>Entendendo afundo o MainList, em sua tag ele recebe um parametro de app.vue que são os dados de pokemons citado anteriormente. Além disso ele manda dois dados para app.vue, o primeiro é selectedPokemon que vamos entender mais pra frente e o segundo é urlAPI que se refere a url que será utilizada na função getList explicada anterior mente</p>
+
+<p>E como ele define essa url?</p>
+
+```
+data: () => ({
+    //Url do request para a api dependendo de cada geração
+    url: 'https://pokeapi.co/api/v2/pokemon?limit=151&offset=0'
+})
+```
+<p>Em MainList.vue (src/components/MainList.vue) temos como propriedade de dado do componente a primeira url definida que corresponde ao dado dos pokemons da primeira geração(1-151) </p>
+
+<p>Além disso temos a função setGeneration também definida por:</p>
+
+```vue
+<script>
+methods: {
+  setGeneration(selectedGeneration) {
+      //Separa os números de ID de início e fim de cada geração
+      let genNumbers = selectedGeneration.match(/(\d+)/g)
+      //Define o começo da geração
+      let offset = genNumbers[1]
+      //Define a quantidade de pokemons na geração selecionada
+      let limit = genNumbers[2]-genNumbers[1]
+      //Usa o a quantidade e começo da geração para fazer o request dos pokemons
+      this.url = `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`
+      //Passa o prop de child > parent component da url 
+      this.$emit('urlAPI', this.url)
+    }
+}
+</script>
+```
+
+<p>A função recebe oque está no seletor de gerações, transforma os dados em url e então repassa para o dado url presente no MainList.vue, logo após esse dado é passado de volta para o componente pai (app.vue) que imediatamente ao receber o componente, utiliza a função getList para pedir uma nova lista de pokemons da geração selecionada</p>
+
+<p>Também temos mais algumas funções em MainList</p>
+
+```vue
+<script>
+computed: {
+    pokesFiltrados() {
+      // Filtra a lista de pokémons com base na busca
+      const search = this.busca.toLowerCase();
+      return this.pokemons.filter(item => {
+        const name = item.name.toLowerCase();
+        const type = item.types.map(type => type.toLowerCase());
+        this.pages.page = 1;
+        //Checa se tanto nome como tipo estão inclusos
+        return name.includes(search) || type.includes(search);
+      });
+    }
+  }
+</script>
+```
+
+<p>a função pokesFiltrados é chamada toda vez que há alguma alteração no campo de busca do site e faz uma busca tanto pelo nome quanto pelo tipo dos pokemons na lista de pokemons, retornando assim uma nova lista com os pokemons filtrados</p>
+
+```vue
+<script>
+methods: {
+  sortById(pokemons) {
+      // Ordena a lista de pokémons pelo ID
+      pokemons.sort((a, b) => a.id - b.id);
+    },
+    sortByName(pokemons) {
+      // Ordena a lista de pokémons pelo nome
+      pokemons.sort((a, b) => {
+        if (a.name <script b.name) return -1;
+        if (a.name > b.name) return 1;
+        return 0;
+      });
+    },
+    showPokemon(pokemon) {
+      // Atualiza o pokémon selecionado
+      this.selectedPokemon = pokemon;
+      //Passa para o app.vue o pokemon selecionado 
+      this.$emit('selectPokemon', this.selectedPokemon)
+    },
+    changePage() {
+      //Defino o range da página selecionada
+      this.pages.pageStart = 20 * (this.pages.page - 1);
+      this.pages.pageEnd = 20 * this.pages.page;
+    }
+}
+
+</script>
+```
+
+<p>sortByID e sortByName correspondem aos botões do site 'order by id' e 'order by name',  elas são disparadas toda vez que se clica nos respectivos botões e recebem os dados dos pokemons presentes no app.vue, logo em seguida os ordenam ou por nome ou por ID de forma crescente</p>
+
+<p>showPokemon é chamada toda vez que alguma card de pokemon recebe um click na lista principal, essa função recebe pokemon(o pokemon clicado) como parâmetro e define que o selectedPokemon será aquele assim como devolve para o componente pai (app.vue) 'selectPokemon' no valor de selectedPokemon</p>
+
+<p>changePage tem a função de trocar o alcance dos pokemons na lista de páginas para que possa assim 'paginar' os pokemons que vemos.</p>
+
+
+```vue
+<template>
+  <v-app>
+    <MainHeader />
+    <!-- Mainlist devolve o Pokémon e a geração(url) selecionado para app.vue --> 
+    <MainList :pokemons="pokemons" @selectPokemon="setPokemon($event)" @urlAPI="this.getList($event)"/>
+    <!-- pokemonCard Recebe o Pokémon selecionado após ser definido na função setPokemon -->
+    <pokemonCard :selectedPokemon="selectedPokemon" v-model="showCard" />
+    <MainFooter />
+  </v-app>
+</template>
+```
+
+<p>De volta em app.vue, temos pokemonCard que recebe selectedPokemon agora redefinido em app.vue pela função: </p>
+
+```vue 
+<script>
+methods: {
+    //trata o Pokémon recebido por MainList.vue
+    setPokemon(pokemon) {
+      this.selectedPokemon = pokemon;
+      this.showCard = !this.showCard;
+    }
+}
+</script>
+```
+
+<p>MainList passa esse pokemon selecionado para app.vue, quando chega em app.vue é definido como dado através da função setPokemon</p>
+
+<p>Então quando PokemonCard é renderizado ele recebe os dados do pokemon selecionado através de selectedPokemon, além disso seu 'v-model' é definido por uma variável que é showCard, um booleano de true/false que fica responsável por mostrar ou não a carta. </p>
