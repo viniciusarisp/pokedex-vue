@@ -7,4 +7,6 @@ Representa um input text que está vinculado a busca de pokemons por nome e tipo
 <img src="./assets/Docs/sorts.jpeg" alt="sorts">
 Representa dois botões que fazem a ordenação da lista atual(geração) de pokemon por seus nomes em ordem alfabética ou em por seus IDs em ordem numérica crescente.
 <img src="./assets/Docs/generation.jpeg" alt="generation">
+<img src="./assets/Docs/generationexp.jpeg" alt="generation expanded">
+Seletor de geração de pokemons, seleciona a geração desejada
 <img src="./assets/Docs/mainpagefooter.jpeg" alt="main page footer">

@@ -1,14 +1,14 @@
 <script>
 //Lista de pokemons, busca e ordenação
-import MainList from './components/MainList.vue';
+import MainList from '/vercel/path0/src/components/MainList.vue';
 //PopUp ao clicar no pokémon
-import PopUpCard from './components/PopUpCard.vue';
+import PopUpCard from '/vercel/path0/src/components/PopUpCard.vue';
 //Footer da página
-import MainFooter from './components/MainFooter.vue';
+import MainFooter from '/vercel/path0/src/components/MainFooter.vue';
 //Header da página
-import MainHeader from './components/MainHeader.vue';
+import MainHeader from '/vercel/path0/src/components/MainHeader.vue';
 //Importa o metódo que gera a lista de pokemons
-import { getList } from './methods/pokeapi';
+import { getList } from '/vercel/path0/src/methods/pokeapi';
 
 export default {
   components: {
