@@ -2,7 +2,7 @@
 //Lista de pokemons, busca e ordenação
 import MainList from './components/MainList.vue';
 //PopUp ao clicar no pokémon
-import PopUpCard from './components/PopUpCard.vue';
+import pokemonCard from './components/pokemonCard.vue';
 //Footer da página
 import MainFooter from './components/MainFooter.vue';
 //Header da página
@@ -14,7 +14,7 @@ export default {
   components: {
     MainFooter,
     MainHeader,
-    PopUpCard,
+    pokemonCard,
     MainList,
   },
   name: 'App',
@@ -47,8 +47,8 @@ export default {
     <MainHeader />
     <!-- Mainlist devolve o Pokémon e a geração(url) selecionado para app.vue --> 
     <MainList :pokemons="pokemons" @selectPokemon="setPokemon($event)" @urlAPI="this.getList($event)"/>
-    <!-- PopUpCard Recebe o Pokémon selecionado após ser definido na função setPokemon -->
-    <PopUpCard :selectedPokemon="selectedPokemon" v-model="showCard" />
+    <!-- pokemonCard Recebe o Pokémon selecionado após ser definido na função setPokemon -->
+    <pokemonCard :selectedPokemon="selectedPokemon" v-model="showCard" />
     <MainFooter />
   </v-app>
 </template>

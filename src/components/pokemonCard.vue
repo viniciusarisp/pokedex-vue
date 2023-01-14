@@ -1,9 +1,7 @@
 <script>
   export default {
-    name: 'PopUpCard',
-    props: ['selectedPokemon'],
-    components: {},
-    data: () => ({}), 
+    name: 'pokemonCard',
+    props: ['selectedPokemon'], 
   }
 </script>
 
