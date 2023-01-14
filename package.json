@@ -14,6 +14,7 @@
     "axios": "^1.2.2",
     "pokedex-promise-v2": "^4.1.0",
     "roboto-fontface": "*",
+    "rollup": "^3.0.0-8",
     "vue": "^3.2.45",
     "vuetify": "^3.0.0-beta.0",
     "webfontloader": "^1.0.0"
