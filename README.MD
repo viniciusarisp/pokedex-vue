@@ -4,9 +4,9 @@ Acesso ao projeto: https://prova-est-front-vinicius-aristimunha.vercel.app
 
 Para executar o projeto basta clonar o repositório e dentro dele pelo terminal executar os seguintes comandos: 
 
-> cd '(pasta do projeto)'    
-> npm install
-> npm run dev
+> cd '(pasta do projeto)'<br>    
+> npm install<br>
+> npm run dev<br>
 
 
 <h2>Principais funcionalidades</h2>
